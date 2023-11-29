@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Tienda de Cascos</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <script src="tienda_virtual.js" defer></script>
@@ -13,7 +13,7 @@
 <body>
     <header class="header">
         <nav class="nav">
-            <a href="#" class="logo nav-link">Alvaro Vesga</a>
+            <a href="#" class="logo"><img src="logo.png" class="imagen-logo" alt=""></a>
             <button class="nav-toggle" aria-label="Abrir Menu">
                 <i class="fas fa-bars"></i>
             </button>
@@ -25,10 +25,8 @@
             <button class="carrito"> <i class="fas fa-shopping-cart"> </i></button>
             <div class="carrito_contenedor">
                 <div class="carrito_menu">
-
                     <table>
-
-                        <head>
+                        <thead>
                             <tr>
                                 <th>Imagen</th>
                                 <th>Nombre</th>
@@ -36,17 +34,15 @@
                                 <th>Cantidad</th>
                                 <th>Boton</th>
                             </tr>
-                        </head>
-
+                        </thead>
                         <tbody id="carrito_info">
-
                         </tbody>
                     </table>
                     <div class="gtotal">
                         <p>Total.$</p>
                         <p id=Total> </p>
                     </div>
-                    <button class="vaciar">Vaciar Carrito</button>
+                    <button class="borrar" onclick="borrrartienda()">Vaciar Carrito</button>
                 </div>
             </div>
         </nav>
@@ -55,10 +51,15 @@
     <main>
         <div id="contenedores" class="contenedores">
         </div>
-
     </main>
+    <footer class="footer">
+        <div class="contenido">
+            <p>Copyright &#169 2023. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+</body>
 
-    <footer>
+</html>
 
 
 
