@@ -1,8 +1,21 @@
 document.addEventListener("DOMContentLoaded", () => {
+    const navtoggle = document.querySelector(".nav-toggle");
+    const navmenu = document.querySelector(".nav-menu");
+    const carrocp = document.querySelector(".carrito")
+    const carritocont = document.querySelector(".carrito_menu")
 
 
-    producto()
-})
+    carrocp.addEventListener("click", () => {
+        carritocont.classList.toggle("active")
+    })
+
+    navtoggle.addEventListener("click", () => {
+        navmenu.classList.toggle("nav-menu_visible");
+
+    });
+
+    producto();
+});
 
 function formatCurrency(amount) {
     return amount.toLocaleString('es-ES', { style: 'currency', currency: 'COP' });
@@ -16,7 +29,7 @@ let productos = [
     { id: 5, img: "./p5.jpeg", Nombre_Producto: "Casco Direli", Nombre_Vendedor: "Jesus Macias", Precio_Anterior: 390000, Precio: 350000 },
     { id: 6, img: "./p6.jpeg", Nombre_Producto: "Casco Mtthunder", Nombre_Vendedor: "Luz Amparo Sierra", Precio_Anterior: 520000, Precio: 320000 },
     { id: 7, img: "./p7.jpeg", Nombre_Producto: "Casco Shaft", Nombre_Vendedor: "Roberto Aguirre", Precio_Anterior: 650000, Precio: 420000 },
-    { id: 8, img: "./p8.jpeg", Nombre_Producto: "Casco shaf", Nombre_Vendedor: "Sandra Gonzalez", Precio_Anterior: 490000, Precio: 240000 },
+    { id: 8, img: "./p8.jpeg", Nombre_Producto: "Casco shaft", Nombre_Vendedor: "Sandra Gonzalez", Precio_Anterior: 490000, Precio: 240000 },
     { id: 9, img: "./p9.jpeg", Nombre_Producto: "Casco Xtrong", Nombre_Vendedor: "Milena Rojas", Precio_Anterior: 370000, Precio: 225000 },
     { id: 10, img: "./p10.jpeg", Nombre_Producto: "Casco Shaft", Nombre_Vendedor: "Claudia Morales", Precio_Anterior: 650000, Precio: 490000 },
     { id: 11, img: "./p11.jpeg", Nombre_Producto: "Casco Cascoloco", Nombre_Vendedor: "Maribel Aguilar", Precio_Anterior: 370000, Precio: 180000 },
@@ -61,6 +74,10 @@ function producto() {
         let boton = document.createElement("button")
         boton.classList.add("botonp")
         boton.textContent = "agregar Carrito"
+        boton.addEventListener("click", () => {
+            addtable(item)
+
+        })
 
         div.appendChild(img)
         div.appendChild(divtef)
@@ -78,4 +95,81 @@ function producto() {
         fragment.appendChild(div)
     })
     document.getElementById("contenedores").appendChild(fragment)
+}
+
+
+let carritov = [];
+
+function calculo(){
+    let total = carritov.reduce((suma, item) => suma + item.total, 0)
+    return total
+}
+
+function addtable(item) {
+    const obj = carritov.find((obj) => obj.id === item.id);
+    if (obj) {
+        obj.cantidad += 1;
+        obj.total = obj.precio * obj.cantidad;
+    } else {
+        let producto = {
+            id: item.id,
+            img: item.img,
+            nombre: item.Nombre_Producto,
+            precio: item.Precio,
+            total: item.Precio,
+            cantidad: 1
+        }
+        carritov.push(producto)
+    }
+    document.getElementById("carrito_info").innerHTML = "";
+    agregart()
+}
+
+function agregart() {
+    let frag = document.createDocumentFragment();
+    carritov.forEach((item, index) => {
+        let tr = document.createElement("tr");
+        let timg = document.createElement("td")
+        let imga = document.createElement("img")
+        imga.src = item.img
+        timg.appendChild(imga)
+        imga.classList.add("imga")
+        let nombre = document.createElement("td")
+        nombre.textContent = item.nombre
+        let precio = document.createElement("td")
+        precio.textContent = formatCurrency(item.total)
+        let cantidad = document.createElement("td")
+        cantidad.textContent = item.cantidad
+        let tdvaciar = document.createElement("td")
+        let vaciar = document.createElement("button")
+        tdvaciar.appendChild(vaciar)
+        vaciar.textContent = "Borrar"
+        vaciar.classList.add("bquitar")
+        vaciar.addEventListener("click", () => {
+            quitar(index)
+        });
+
+        tr.appendChild(timg);
+        tr.appendChild(nombre);
+        tr.appendChild(precio);
+        tr.appendChild(cantidad);
+        tr.appendChild(tdvaciar);
+        frag.appendChild(tr);
+    })
+    document.getElementById("carrito_info").appendChild(frag)
+    const totale = document.getElementById("Total");
+    totale.textContent = formatCurrency(calculo());
+}
+
+function quitar(i) {
+    let index = i;
+    carritov.splice(index, 1);
+    document.getElementById("carrito_info").innerHTML = "";
+    agregart();
+}
+
+function borrrartienda(){
+    carritov = [];
+    document.getElementById("carrito_info").innerHTML = "";
+    agregart();
 }
